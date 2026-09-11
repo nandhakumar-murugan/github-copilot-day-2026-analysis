@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Copilot Day 2026: Interactive Video Dashboard & Notes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ghdark: '#0d1117',
+            ghsurface: '#161b22',
+            ghborder: '#30363d',
+            ghgreen: '#238636',
+            ghgreenlight: '#2ea043',
+            ghblue: '#58a6ff',
+            ghpurple: '#bc8cff'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+    .prose-custom h1, .prose-custom h2, .prose-custom h3 { color: #f0f6fc; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+    .prose-custom h1 { font-size: 1.75rem; border-bottom: 1px solid #30363d; padding-bottom: 0.5rem; }
+    .prose-custom h2 { font-size: 1.35rem; border-bottom: 1px solid #21262d; padding-bottom: 0.4rem; }
+    .prose-custom h3 { font-size: 1.15rem; color: #58a6ff; }
+    .prose-custom p, .prose-custom li { line-height: 1.6; color: #c9d1d9; }
+    .prose-custom ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+    .prose-custom table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .prose-custom th, .prose-custom td { border: 1px solid #30363d; padding: 0.5rem 0.75rem; text-align: left; }
+    .prose-custom th { background-color: #161b22; color: #f0f6fc; }
+    .prose-custom code { background-color: #21262d; color: #ff7b72; padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.875rem; }
+    .prose-custom a { color: #58a6ff; text-decoration: none; }
+    .prose-custom a:hover { text-decoration: underline; }
+    .prose-custom blockquote { border-left: 4px solid #388bfd; padding-left: 1rem; color: #8b949e; margin: 1rem 0; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Top Header Navigation -->
+  <header class="bg-ghsurface border-b border-ghborder sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <i class="fa-brands fa-github text-3xl text-white"></i>
+        <div>
+          <h1 class="font-bold text-white text-lg tracking-wide flex items-center gap-2">
+            GitHub Copilot Day <span class="text-xs bg-ghgreen px-2 py-0.5 rounded-full text-white font-normal">2026 Live</span>
+          </h1>
+          <p class="text-xs text-gray-400">September 10, 2026 • 4h 11m • Video Analysis & Interactive Notes</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <a href="https://github.com/nandhakumar-murugan/github-copilot-day-2026-analysis" target="_blank" class="text-xs bg-ghborder hover:bg-gray-700 text-white px-3 py-1.5 rounded-md flex items-center gap-2 transition">
+          <i class="fa-brands fa-github"></i> Star Repo
+        </a>
+        <a href="https://www.youtube.com/watch?v=0kOXsQUNzss" target="_blank" class="text-xs bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-md flex items-center gap-2 transition">
+          <i class="fa-brands fa-youtube"></i> Watch on YouTube
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- Left Column: Video Player, Chapters, Keyframe Gallery (5 cols on desktop) -->
+    <div class="lg:col-span-5 space-y-6">
+      
+      <!-- Video Player Card -->
+      <div class="bg-ghsurface border border-ghborder rounded-xl overflow-hidden shadow-lg sticky top-20">
+        <div class="relative aspect-video bg-black">
+          <iframe id="yt-player" class="w-full h-full"
+            src="https://www.youtube.com/embed/0kOXsQUNzss?enablejsapi=1&origin="
+            title="GitHub Copilot Day Live Stream" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+        <div class="p-3 bg-ghsurface flex items-center justify-between border-t border-ghborder text-xs">
+          <span class="text-gray-400 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span> Live Broadcast Recording
+          </span>
+          <span id="current-timestamp" class="text-ghblue font-mono font-bold">00:00:00</span>
+        </div>
+
+        <!-- Quick Jump Chapter Carousel/List -->
+        <div class="p-3 border-t border-ghborder">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-xs font-semibold text-gray-300 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-regular fa-clock text-ghgreen"></i> Chapters (Click to Jump)
+            </h3>
+            <span class="text-[10px] text-gray-500">9 Chapters</span>
+          </div>
+          <div class="max-h-60 overflow-y-auto scrollbar-thin space-y-1.5 pr-1" id="chapters-list">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Keyframe Carousel / Visual Explorer -->
+      <div class="bg-ghsurface border border-ghborder rounded-xl p-4 shadow-lg">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-xs font-semibold text-gray-300 uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fa-regular fa-image text-ghpurple"></i> Keyframe Visuals (17)
+          </h3>
+          <span class="text-[10px] text-gray-500">Extracted Key Moments</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="keyframe-grid">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Tabs (Notes, Speakers, Resources, Search) (7 cols on desktop) -->
+    <div class="lg:col-span-7 space-y-6">
+
+      <!-- Navigation Tabs -->
+      <div class="bg-ghsurface border border-ghborder rounded-xl p-2 flex space-x-1 sm:space-x-2">
+        <button onclick="switchTab('notes')" id="tab-btn-notes" class="flex-1 py-2 px-3 text-xs sm:text-sm font-medium rounded-lg text-white bg-ghborder transition flex items-center justify-center gap-2">
+          <i class="fa-regular fa-file-lines text-ghgreen"></i> Detailed Notes
+        </button>
+        <button onclick="switchTab('speakers')" id="tab-btn-speakers" class="flex-1 py-2 px-3 text-xs sm:text-sm font-medium rounded-lg text-gray-400 hover:text-white transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-users text-ghblue"></i> Speakers (11)
+        </button>
+        <button onclick="switchTab('resources')" id="tab-btn-resources" class="flex-1 py-2 px-3 text-xs sm:text-sm font-medium rounded-lg text-gray-400 hover:text-white transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-link text-ghpurple"></i> Resources & Docs
+        </button>
+      </div>
+
+      <!-- Tab Content: Detailed Notes -->
+      <div id="tab-notes" class="bg-ghsurface border border-ghborder rounded-xl p-6 shadow-lg space-y-6">
+        <!-- Search filter inside notes -->
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-xs"></i>
+          <input type="text" id="notes-filter" oninput="filterNotes()" placeholder="Search topics, models, HydraFusion, Agent Skills, AHP, speakers..." 
+            class="w-full bg-[#0d1117] border border-ghborder rounded-lg pl-9 pr-4 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-ghblue transition">
+        </div>
+
+        <div id="notes-body" class="prose-custom max-w-none text-sm">
+          <!-- Markdown injected here -->
+        </div>
+      </div>
+
+      <!-- Tab Content: Speakers Directory -->
+      <div id="tab-speakers" class="hidden space-y-4">
+        <div class="bg-ghsurface border border-ghborder rounded-xl p-4">
+          <h2 class="text-base font-bold text-white flex items-center gap-2 mb-1">
+            <i class="fa-solid fa-users text-ghblue"></i> Event Speakers & Leadership
+          </h2>
+          <p class="text-xs text-gray-400">Connect with the GitHub & Microsoft engineers and educators who presented during Copilot Day.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="speakers-grid">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Tab Content: Resources & Documentation -->
+      <div id="tab-resources" class="hidden space-y-4">
+        <div class="bg-ghsurface border border-ghborder rounded-xl p-4">
+          <h2 class="text-base font-bold text-white flex items-center gap-2 mb-1">
+            <i class="fa-solid fa-book-bookmark text-ghpurple"></i> Essential Resources, Repos & Papers
+          </h2>
+          <p class="text-xs text-gray-400">Direct documentation links, open-source repositories, protocols, and technical research referenced during the event.</p>
+        </div>
+        <div class="space-y-3" id="resources-list">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Modal for Keyframe Preview -->
+  <div id="image-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4" onclick="closeModal()">
+    <div class="max-w-3xl w-full bg-ghsurface border border-ghborder rounded-xl overflow-hidden p-4 space-y-3" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between">
+        <h4 id="modal-title" class="text-sm font-semibold text-white"></h4>
+        <button onclick="closeModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <img id="modal-img" src="" alt="Frame preview" class="w-full rounded-lg border border-ghborder">
+      <div class="flex justify-between items-center pt-2">
+        <span id="modal-time" class="text-xs text-ghblue font-mono"></span>
+        <button id="modal-jump-btn" class="text-xs bg-ghgreen hover:bg-ghgreenlight text-white px-3 py-1.5 rounded-md flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-play text-[10px]"></i> Jump to this moment in video
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-ghsurface border-t border-ghborder py-6 mt-12 text-center text-xs text-gray-500">
+    <p>GitHub Copilot Day 2026 Analysis Dashboard • Built with automated AI transcription, keyframe sampling & document extraction.</p>
+    <p class="mt-1">Maintained on GitHub by <a href="https://github.com/nandhakumar-murugan" target="_blank" class="text-ghblue hover:underline">@nandhakumar-murugan</a></p>
+  </footer>
+
+  <!-- App Data & Scripts -->
+  <script>
+    const chaptersData = [{"time": "00:00:00", "sec": 0, "title": "Pre-Stream Countdown", "speaker": "Intro & Slate", "tag": "Intro"}, {"time": "00:08:00", "sec": 480, "title": "Welcome & Keynote Kickoff", "speaker": "Burke Holland, Pierce Boggan, Kyle Daigle (GitHub COO)", "tag": "Keynote"}, {"time": "00:15:20", "sec": 920, "title": "Dream It, Build It, Ship It", "speaker": "James Montemagno & Pierce Boggan", "tag": "Copilot App"}, {"time": "00:46:00", "sec": 2760, "title": "Agent Skills: Codifying Expertise", "speaker": "Matt Pocock", "tag": "Agent Skills"}, {"time": "01:07:00", "sec": 4020, "title": "Inside Project HydraFusion: Multi-Model Orchestration", "speaker": "Julia Kasper & Aashna Garg", "tag": "HydraFusion"}, {"time": "01:23:00", "sec": 4980, "title": "Copilot Everywhere: Multi-Surface Continuity", "speaker": "Meagan Cojocar", "tag": "Continuity"}, {"time": "01:37:45", "sec": 5865, "title": "Claude, Codex, and BYOK in GitHub Copilot", "speaker": "Tyler Leonhardt", "tag": "BYOK"}, {"time": "01:48:00", "sec": 6480, "title": "One Session, Every Surface: Agent Runtime & SDK", "speaker": "Patrick Nikoletich", "tag": "Agent Host Protocol"}, {"time": "02:08:00", "sec": 7680, "title": "Live Coding Marathon: Building a 3D Foldable Device Emulator", "speaker": "Wes Bos, Burke Holland, Pierce Boggan & Friends", "tag": "Live Coding"}];
+    const speakersData = [{"name": "Kyle Daigle", "role": "Chief Operating Officer (COO), GitHub", "github": "kdaigle", "linkedin": "kyledaigle", "bio": "Leading GitHub operations, culture, and developer platform evolution."}, {"name": "Burke Holland", "role": "Principal Developer Advocate, Microsoft", "github": "burkeholland", "linkedin": "burkeholland", "bio": "Host of Copilot Day, creating developer productivity workflows and VS Code tutorials."}, {"name": "Pierce Boggan", "role": "Product Lead, VS Code & Copilot, Microsoft", "github": "pierceboggan", "linkedin": "pierceboggan", "bio": "Leading product roadmap for VS Code agent mode and autonomous developer tooling."}, {"name": "James Montemagno", "role": "Principal Lead Program Manager, Microsoft", "github": "jamesmontemagno", "linkedin": "jamesmontemagno", "bio": "Merge Conflict host, demonstrating the GitHub Copilot App and MCP Canvas tests."}, {"name": "Matt Pocock", "role": "TypeScript Educator & Creator of Skills", "github": "mattpocock", "linkedin": "mattpocock", "bio": "Creator of Total TypeScript and the Show Me visual architecture skill for agents."}, {"name": "Julia Kasper", "role": "Senior Product Manager, GitHub Copilot", "github": "juliakaspar", "linkedin": "juliakasper", "bio": "Driving model evaluation, Checkpoint Bench, and multi-model agent experiences."}, {"name": "Aashna Garg", "role": "Principal Applied Scientist (Code AI), Microsoft", "github": "aashnagarg", "linkedin": "aashnagarg", "bio": "Lead researcher and author on HyDRA (Hybrid Dynamic Routing Architecture)."}, {"name": "Meagan Cojocar", "role": "Product Manager, GitHub Copilot Integrations", "github": "meagancojocar", "linkedin": "meagancojocar", "bio": "Leading multi-surface continuity across GitHub Mobile, Slack, and Microsoft Teams."}, {"name": "Tyler Leonhardt", "role": "Senior Software Engineer, VS Code & Copilot", "github": "TylerLeonhardt", "linkedin": "tylerleonhardt", "bio": "Building model choice, Anthropic Claude integration, and BYOK into VS Code."}, {"name": "Patrick Nikoletich", "role": "Principal Software Engineer, Copilot Runtime", "github": "patniko", "linkedin": "patricknikoletich", "bio": "Architecting the Agent Host Protocol (AHP) and Copilot SDK runtime decoupling."}, {"name": "Wes Bos", "role": "Full-Stack Educator & Syntax Podcast Host", "github": "wesbos", "linkedin": "wesbos", "bio": "Live pair programming and building the 3D foldable dual-screen emulator live on stream."}];
+    const framesData = [{"file": "frames/frame_10s.jpg", "sec": 10, "label": "Title Card: GitHub Copilot Day"}, {"file": "frames/frame_300s.jpg", "sec": 300, "label": "Pre-Stream Live Countdown"}, {"file": "frames/frame_600s.jpg", "sec": 600, "label": "Kyle Daigle Keynote Kickoff"}, {"file": "frames/frame_1200s.jpg", "sec": 1200, "label": "GitHub Copilot App & Multi-Repo Agents"}, {"file": "frames/frame_1800s.jpg", "sec": 1800, "label": "James Montemagno Canvas & MCP Testing"}, {"file": "frames/frame_2400s.jpg", "sec": 2400, "label": "Repo Actions & Autonomous Issue Triage"}, {"file": "frames/frame_3600s.jpg", "sec": 3600, "label": "Matt Pocock 'Show Me' Visual Architecture"}, {"file": "frames/frame_4800s.jpg", "sec": 4800, "label": "Draft PR Generation from Agent Workflows"}, {"file": "frames/frame_6000s.jpg", "sec": 6000, "label": "HydraFusion Multi-Model Benchmarks"}, {"file": "frames/frame_7200s.jpg", "sec": 7200, "label": "Agent Host Protocol (AHP) Architecture"}, {"file": "frames/frame_8400s.jpg", "sec": 8400, "label": "Copilot Mobile & Teams Cross-Surface Handoff"}, {"file": "frames/frame_9600s.jpg", "sec": 9600, "label": "Tyler Leonhardt: BYOK in VS Code"}, {"file": "frames/frame_10800s.jpg", "sec": 10800, "label": "Live Coding: Burke & Pierce Multi-Agent Setup"}, {"file": "frames/frame_12000s.jpg", "sec": 12000, "label": "Dual-Screen 3D Hardware Model Render"}, {"file": "frames/frame_13200s.jpg", "sec": 13200, "label": "Knolling Exploded Hardware Parts View"}, {"file": "frames/frame_14400s.jpg", "sec": 14400, "label": "Interactive Virtual Apps on Foldable Device"}, {"file": "frames/frame_15000s.jpg", "sec": 15000, "label": "Final Demo Wrap-up & Stream Outro"}];
+    const resourcesData = [{"category": "Core Products", "title": "GitHub Copilot App", "url": "https://gh.io/app", "desc": "Native desktop application for managing asynchronous multi-agent coding sessions."}, {"category": "Core Products", "title": "GitHub Copilot CLI", "url": "https://docs.github.com/en/copilot/github-copilot-in-the-cli", "desc": "Terminal-native agent workflows with HydraFusion dynamic routing."}, {"category": "Core Products", "title": "Copilot Dev Days", "url": "https://copilot-dev-days.github.io/", "desc": "Official hands-on workshops, guided labs, and tutorials."}, {"category": "Core Products", "title": "Copilot Feature Catalog", "url": "https://gh.io/ghcopilot-features", "desc": "Official breakdown of agent capabilities, models, and pricing."}, {"category": "Protocols & SDKs", "title": "Agent Host Protocol (AHP)", "url": "https://github.com/microsoft/agent-host-protocol", "desc": "Standard open protocol decoupling agent execution runtimes from client UIs."}, {"category": "Protocols & SDKs", "title": "GitHub Copilot SDK", "url": "https://github.com/github/copilot-sdk", "desc": "SDK to embed, control, and orchestrate the Copilot Agent Runtime."}, {"category": "Protocols & SDKs", "title": "Matt Pocock's Agent Skills", "url": "https://github.com/mattpocock/skills", "desc": "Reusable agent skills including 'Show Me' visual architecture sketches."}, {"category": "Protocols & SDKs", "title": "Model Context Protocol (MCP)", "url": "https://modelcontextprotocol.io/", "desc": "Standard for exposing custom tools and data sources to AI agents."}, {"category": "Research", "title": "HyDRA Research Paper", "url": "https://arxiv.org/abs/2406.18665", "desc": "Microsoft Research publication on Hybrid Dynamic Routing Architecture by Aashna Garg et al."}, {"category": "Research", "title": "GitHub Engineering Blog", "url": "https://github.blog/", "desc": "Official blog covering AI architectures, agent benchmarks, and release posts."}];
+    const fullNotesMarkdown = "# GitHub Copilot Day 2026: Comprehensive Video Analysis & Notes\n\n**Source File:** `C:\\Users\\smnk2\\Downloads\\videoplayback.mp4`  \n**Event Title:** GitHub Copilot Day Live: New Releases, Real Workflows, and Live Coding  \n**Broadcast Date:** September 10, 2026  \n**Total Duration:** 04:11:40 (15,100 seconds / ~251.7 minutes)  \n**Resolution / Spec:** 640x360 @ 29.97 fps, AVC1 / AAC stereo, ~301 MB  \n**Event URL:** [YouTube: GitHub Official (ID: `0kOXsQUNzss`)](https://www.youtube.com/watch?v=0kOXsQUNzss)  \n**Main Stage Anchors:** Burke Holland & Pierce Boggan  \n**Keynote & Featured Speakers:**\n- **Kyle Daigle** \u2014 Chief Operating Officer (COO), GitHub\n- **James Montemagno** \u2014 Principal Lead Program Manager / Dev Relations, GitHub\n- **Matt Pocock** \u2014 TypeScript Educator & Creator\n- **Julia Kasper & Aashna Garg** \u2014 Product Managers / Engineers, GitHub Copilot (Project HydraFusion)\n- **Meagan Cojocar** \u2014 Product Manager, GitHub Copilot\n- **Tyler Leonhardt** \u2014 Software Engineer, VS Code / GitHub Copilot Team\n- **Patrick Nikoletich** \u2014 Principal Engineer, Copilot Agent Runtime & SDK Team\n- **Wes Bos** \u2014 Full-stack Developer, Educator & Special Live Guest\n\n---\n\n## Executive Summary\n\n**GitHub Copilot Day 2026** is GitHub's flagship 4-hour live conference detailing the paradigm shift from single-line code completion to an **agent-native software engineering lifecycle**. Over four hours of technical keynotes, architectural reveals, and intensive two-hour live pair-programming sessions, GitHub revealed how AI agents are now integrated from ideation to production across every developer surface (CLI, IDE, Web, Mobile, Slack, Teams).\n\n### Top 7 Key Announcements & Core Highlights:\n1. **Project HydraFusion (Multi-Model Orchestration Preview):**\n   - Moves beyond static \"model selection\" into dynamic workflow orchestration.\n   - Achieves higher benchmark accuracy (+4.9 points on coding tasks) with **36% to 67% lower cost** compared to frontier models like Claude 3.5/Opus 5.\n   - Core philosophy: *\"Selection has a ceiling, but composition doesn't.\"*\n2. **GitHub Copilot App (`gh.io/app`):**\n   - A dedicated desktop control center for managing asynchronous, multi-agent sessions across repositories.\n   - Integrates PR reviews, auto-investigation of bug reports, CI/CD telemetry, and direct Slack/Teams steering.\n3. **Copilot Agent Runtime & Copilot SDK:**\n   - Architecture decoupling: Agents execute in a persistent, portable runtime (locally, in cloud containers, or over Tailscale networks), while developers interact through thin client surfaces.\n   - Built on the **Agent Host Protocol (AHP)**, allowing developers to build custom agent tools, UI dashboards, and custom clients.\n4. **Agent Skills Framework:**\n   - Modular, composable prompt-and-tool packages (e.g., `Show Me` visual architecture generator, PR review skills, test automation).\n   - Allows teams to codify internal domain knowledge and architectural patterns that agents automatically discover and execute.\n5. **BYOK (Bring Your Own Key) & Expanded Model Choice in VS Code:**\n   - Direct integration of custom API keys (Anthropic Claude, OpenAI, OpenRouter) right inside VS Code and the Copilot CLI.\n6. **Cross-Surface Continuity:**\n   - Unified session persistence across GitHub.com, VS Code, Terminal CLI, GitHub Mobile, Slack, and Microsoft Teams. A developer can start an agent task from a Slack incident thread, inspect visual diffs on their phone, and review the code in VS Code.\n7. **The \"Chief of Staff\" Mental Model:**\n   - Developers no longer micromanage code character by character; they act as architects and managers directing autonomous agent swarms, reviewing output, and steering architecture while staying in full control of what gets merged.\n\n---\n\n## Full Chapter-by-Chapter Breakdown & Detailed Timestamps\n\n```\nTimeline Map:\n00:00:00 - 00:08:00 | Pre-Stream Countdown & Title Slate\n00:08:00 - 00:15:20 | Welcome & Keynote Kickoff (Burke Holland, Pierce Boggan & Kyle Daigle)\n00:15:20 - 00:46:00 | Dream It, Build It, Ship It (James Montemagno & Pierce Boggan)\n00:46:00 - 01:07:00 | Agent Skills: Codifying Expertise (Matt Pocock)\n01:07:00 - 01:23:00 | Inside Project HydraFusion: Multi-Model Orchestration (Julia Kasper & Aashna Garg)\n01:23:00 - 01:37:45 | Copilot Everywhere: Multi-Surface Continuity (Meagan Cojocar)\n01:37:45 - 01:48:00 | Claude, Codex, and BYOK in GitHub Copilot for VS Code (Tyler Leonhardt)\n01:48:00 - 02:08:00 | One Session, Every Surface: Agent Runtime & SDK (Patrick Nikoletich)\n02:08:00 - 04:11:40 | Live Coding Marathon: Building an Agent-Native App Live (Wes Bos, Burke & Pierce)\n```\n\n---\n\n### Segment 1: Welcome & Opening Keynote (00:08:00 - 00:15:20)\n**Speakers:** Burke Holland, Pierce Boggan, and Kyle Daigle (GitHub COO)\n\n- **The Evolution of Development:** Kyle opens by highlighting how software creation has transformed. Developers no longer write boilerplate or manually search documentation for hours; modern engineering is centered on expressing intent and guiding autonomous systems.\n- **Introducing Project HydraFusion:**\n  - Kyle unveils GitHub's latest research preview: **HydraFusion**, a multi-model orchestration engine.\n  - Highlights benchmark results: **+4.9 quality points improvement** while slashing estimated inference costs by **67%** compared to standard monolithic frontier runs.\n  - Explains that forcing developers to manually select different models for each prompt is inefficient; intelligent orchestration dynamically routes subtasks to the most effective models.\n- **The Shared Agent Runtime:**\n  - The runtime that powers internal GitHub agents is now made directly accessible to all developers via the **Copilot SDK** and **Copilot CLI**.\n  - Philosophy: *\"Agents do more of the work, but you still decide what ships.\"* Human-in-the-loop oversight remains fundamental.\n\n---\n\n### Segment 2: Dream It, Build It, Ship It (00:15:20 - 00:46:00)\n**Presenters:** James Montemagno & Pierce Boggan\n\nJames showcases the day-to-day workflow of an agent-native engineer using real internal and open-source applications.\n\n- **The GitHub Copilot App (`gh.io/app`):**\n  - James demonstrates how the dedicated desktop application centralizes asynchronous development sessions across projects (e.g., `threeup`, `fourup`).\n  - Developers can configure routing hints for agent execution:\n    - **Efficiency:** Prioritizes speed and low compute cost for rapid iterations.\n    - **Balanced:** Standard default balancing speed, cost, and reasoning.\n    - **Intelligent:** Deploys deep reasoning models for architectural refactors and complex bugs.\n- **MCP (Model Context Protocol) Integration & Canvas Testing:**\n  - James demonstrates a Canvas test environment that hosts an embedded MCP server.\n  - The agent interacts with the running UI by capturing real-time screenshots, analyzing visual element layout, and inspecting DOM structures without human intervention.\n  - Live demo of multi-capture editing and cross-platform build validation (Windows & macOS CI/CD pipeline triggers).\n- **Automated Issue Triage & Repo Actions:**\n  - Inbound issues and customer bug reports are automatically ingested by agents that generate repro steps, investigate call stacks, and produce draft PRs before an engineer opens their laptop.\n  - Repo actions allow engineers to query PRs, trigger tests, and review diffs without leaving the Copilot desktop application.\n\n---\n\n### Segment 3: Agent Skills: Codifying Engineering Patterns (00:46:00 - 01:07:00)\n**Presenter:** Matt Pocock\n\nMatt demonstrates how developers can transition from writing one-off prompts to designing **reusable, version-controlled Agent Skills**.\n\n- **What are Agent Skills?**\n  - Modular skill packages that define domain-specific knowledge, architectural guidelines, and validation rules.\n  - Stored within repositories (`.github/skills/`) or shared across organizations.\n- **Demo: The `Show Me` Skill:**\n  - Matt demonstrates a skill named `Show Me` that visualizes complex architectural concepts.\n  - Instead of responding with walls of text, the agent generates an interactive HTML document rendered inline with architectural diagrams, before-and-after comparison boxes, and type-flow arrows.\n  - Example: Refactoring a messy RPC module (`apps/remote/rpc.ts`) into a typed adapter pattern. The visual diff highlights shallow seams, hidden omissions in typecasts, and clean decoupled interfaces.\n- **Iterative Shared Understanding:**\n  - Matt emphasizes the concept of *\"reaching a shared understanding with the agent.\"*\n  - The workflow follows: **Explore -> Sketch Architecture -> Align with Developer -> Generate Draft PR -> Run Automated Verifications**.\n  - Skills allow junior and senior engineers alike to enforce repository standards automatically.\n\n---\n\n### Segment 4: Inside Project HydraFusion: Multi-Model Orchestration (01:07:00 - 01:23:00)\n**Presenters:** Julia Kasper & Aashna Garg (GitHub Copilot PMs & Engineers)\n\nJulia and Aashna provide an in-depth technical walkthrough of GitHub's new multi-model orchestration engine.\n\n- **The Core Problem:**\n  - Developers currently face \"model fatigue\" (choosing between Claude 3.5 Sonnet, GPT-4o, Opus, Gemini, local models).\n  - Choosing a single model for an entire session is inherently suboptimal: simple planning tasks waste high-end reasoning tokens, while cheap models fail on edge cases.\n- **HydraFusion Architecture & Workflows:**\n  - *\"Selection has a ceiling, but composition doesn't.\"*\n  - HydraFusion decomposes incoming developer tasks into three dynamic workflows:\n    1. **Single Workflow:** Simple, well-defined tasks (e.g., formatting, quick lookups) are routed directly to lightweight, ultra-fast models.\n    2. **Cascade Workflow:** Tasks start with a cost-effective model; if uncertainty thresholds or validation checks fail, it automatically escalates to a frontier reasoning model.\n    3. **Critique / Verification Workflow (Dual-Model):** A primary \"worker\" model generates code changes, and a secondary \"critic/reviewer\" model (e.g., Sol / Claude Opus) inspects the diff, verifies edge cases, and provides targeted revisions.\n- **Benchmark Metrics:**\n  - Evaluated on GitHub's internal developer benchmark (**Checkpoint Bench**) and real-world repository workloads.\n  - Delivers parity or superior quality compared to Opus 5 while cutting overall token spend by **36% to 67%**.\n\n---\n\n### Segment 5: Copilot Everywhere: Cross-Surface Continuity (01:23:00 - 01:37:45)\n**Presenter:** Meagan Cojocar\n\nMeagan demonstrates the unified developer experience across physical devices and communication platforms.\n\n- **Session Portability:**\n  - An agent session started on GitHub.com or VS Code is not locked to that machine; it lives in the Copilot runtime.\n  - Meagan shows starting a refactoring session from an alert, tracking the agent's progress on GitHub Mobile, and leaving voice/text steering comments while on the go.\n- **Slack & Microsoft Teams Bot Integration:**\n  - Demonstrates inviting `@GitHub Copilot` directly into team channels.\n  - The agent posts structured status updates, responds to developer questions in threads, and executes repository actions with explicit team permissions.\n\n---\n\n### Segment 6: Claude, Codex, and BYOK in GitHub Copilot for VS Code (01:37:45 - 01:48:00)\n**Presenter:** Tyler Leonhardt\n\nTyler details new customization features inside VS Code and the Copilot CLI.\n\n- **Bring Your Own Key (BYOK):**\n  - Developers and enterprises can now connect their own API keys from Anthropic, OpenAI, or OpenRouter directly into the Copilot harness.\n  - Enables developers to test unreleased models, private fine-tunes, or specialized LLMs inside standard Copilot workflows.\n- **Model Switching in the Copilot Agent Harness:**\n  - Tyler demonstrates switching models on the fly during a single coding session based on task requirements, while maintaining unified context and tool access.\n\n---\n\n### Segment 7: One Session, Every Surface: Copilot Agent Runtime & SDK (01:48:00 - 02:08:00)\n**Presenter:** Patrick Nikoletich\n\nPatrick presents the deep systems engineering behind the new Copilot architecture.\n\n- **Agent Host Protocol (AHP):**\n  - An open, standardized protocol that decouples the agent runtime (tools, file access, bash execution, state) from the user interface.\n  - Allows the runtime to execute inside isolated sandbox containers, secure cloud VMs, or remote servers accessible via Tailscale.\n- **The Copilot SDK:**\n  - Developers can build custom frontend clients, command-line interfaces, or automated CI agents that speak directly to the Copilot runtime.\n  - Full session playback: sessions can be serialized, replayed, paused, and resumed across different environments without losing context.\n\n---\n\n### Segment 8: Live Coding Marathon (02:08:00 - 04:11:40)\n**Coders:** Wes Bos, Burke Holland, Pierce Boggan & Live Stream Guests\n\nA massive, 2-hour live collaborative build demonstrating real-time agent steering, debugging, and multi-agent coordination.\n\n- **Project Vision:**\n  - Building a **Foldable Dual-Screen Hardware Emulator** in 3D (Three.js / WebGL / HTML Canvas) with interactive apps running on virtual screens (Surface Duo / foldable mobile form factor).\n  - Features an **Exploded \"Knolling\" View** displaying internal components: circuit boards, screws, capacitors, and articulating hinges.\n- **The Workflow in Action:**\n  - **Burke** steers the frontend 3D viewport and Canvas rendering in Microsoft Edge, troubleshooting hardware acceleration flags and WebGL contexts.\n  - **Pierce** manages the \"Agent Control Plane\" in the Copilot App, running multiple parallel agents simultaneously:\n    - *Agent 1:* Building the backend Copilot bridge.\n    - *Agent 2:* Automating headless Chrome browser testing via debugging ports (`localhost:9222`) to capture visual regressions.\n    - *Agent 3:* Generating interactive web apps (Calculator, App Store, Settings) to run on the 3D emulator screens.\n  - **Wes Bos** provides live architectural feedback, optimizing Three.js scene graphs, CSS canvas scaling, and UI event propagation.\n- **Key Live Coding Lessons & Real-World Realities:**\n  - *Parallel Agent Management:* Running 4-6 agents simultaneously requires clear prompt specifications and defined boundaries; otherwise, agents may write conflicting files.\n  - *Browser Verification Skill:* Letting agents inspect their own visual output using a headless browser skill dramatically reduces hallucinated CSS/layout bugs.\n  - *Pivoting vs. Sunk Cost:* When an agent spends too long on an overcomplicated approach (e.g., custom physics calculations for hinges), human steering is essential to tell the agent: *\"Stop, reset, and use a simpler matrix transform.\"*\n  - *Token & Credit Awareness:* The team tracks credit utilization live, demonstrating how HydraFusion prevents catastrophic cost overruns during heavy agent usage.\n\n---\n\n## Architectural Deep Dive & Key Concepts\n\n### 1. The Multi-Model Orchestration Matrix (HydraFusion)\n\n```mermaid\nflowchart TD\n    UserRequest([User Query / Task]) --> Router{HydraFusion Router}\n    \n    Router -->|Low Complexity| Single[Single Workflow: Fast/Cost-Effective Model]\n    Router -->|Moderate/Ambiguous| Cascade[Cascade Workflow: Fast Model -> Evaluate -> Escalate to Frontier]\n    Router -->|High Complexity/Code Diff| Critique[Critique Workflow: Worker Model -> Critic/Reviewer Verification]\n    \n    Single --> Result([Final Output & Diff])\n    Cascade --> Result\n    Critique --> Result\n```\n\n- **Single Execution:** Used for deterministic file lookups, docstring generation, syntax corrections.\n- **Cascade Escalation:** If unit tests or static analysis fail after the first attempt, context is handed to a deeper reasoning model with error logs.\n- **Critique Review Loop:** The worker creates the patch; the critic model checks edge cases, security implications, and style rules before presenting the diff to the human.\n\n### 2. The Decoupled Agent Host Architecture (AHP)\n\n```\n+-------------------------------------------------------------+\n|                     Client Surfaces                         |\n|   VS Code   |   Copilot CLI   |   Copilot App   |   Slack   |\n+-------------------------------------------------------------+\n                              | (AHP / WebSocket / gRPC)\n+-------------------------------------------------------------+\n|                   Copilot Agent Runtime                     |\n|  - Session State & History    - Tool Sandbox Execution       |\n|  - Model Orchestrator         - File System / Git Controller |\n|  - MCP Client Connector       - Permission Guardrails        |\n+-------------------------------------------------------------+\n                              |\n+-------------------------------------------------------------+\n|                     Execution Targets                       |\n|   Localhost   |   Docker / DevContainer   |   Remote VM     |\n+-------------------------------------------------------------+\n```\n\n---\n\n\n---\n\n## \ud83d\udc65 Featured Speakers & Profiles\n\n| Speaker | Role / Affiliation | GitHub | LinkedIn |\n| :--- | :--- | :--- | :--- |\n| **Kyle Daigle** | Chief Operating Officer (COO), GitHub | [@kdaigle](https://github.com/kdaigle) | [in/kyledaigle](https://www.linkedin.com/in/kyledaigle) |\n| **Burke Holland** | Principal Developer Advocate, Microsoft / GitHub | [@burkeholland](https://github.com/burkeholland) | [in/burkeholland](https://www.linkedin.com/in/burkeholland) |\n| **Pierce Boggan** | Product Lead, VS Code & GitHub Copilot, Microsoft | [@pierceboggan](https://github.com/pierceboggan) | [in/pierceboggan](https://www.linkedin.com/in/pierceboggan) |\n| **James Montemagno** | Principal Lead Program Manager, Microsoft DevRel | [@jamesmontemagno](https://github.com/jamesmontemagno) | [in/jamesmontemagno](https://www.linkedin.com/in/jamesmontemagno) |\n| **Matt Pocock** | TypeScript Educator, Creator of Total TypeScript & Skills | [@mattpocock](https://github.com/mattpocock) | [in/mattpocock](https://www.linkedin.com/in/mattpocock) |\n| **Julia Kasper** | Senior Product Manager, VS Code & GitHub Copilot | [@juliakaspar](https://github.com/juliakaspar) | [in/juliakasper](https://www.linkedin.com/in/juliakasper) |\n| **Aashna Garg** | Principal Applied Scientist (Code AI & HyDRA), Microsoft | [@aashnagarg](https://github.com/aashnagarg) | [in/aashnagarg](https://www.linkedin.com/in/aashnagarg) |\n| **Meagan Cojocar** | Product Manager, GitHub Copilot (Integrations & Mobile) | [@meagancojocar](https://github.com/meagancojocar) | [in/meagancojocar](https://www.linkedin.com/in/meagancojocar) |\n| **Tyler Leonhardt** | Senior Software Engineer, VS Code & Copilot Team | [@TylerLeonhardt](https://github.com/TylerLeonhardt) | [in/tylerleonhardt](https://www.linkedin.com/in/tylerleonhardt) |\n| **Patrick Nikoletich** | Principal Software Engineer, Copilot Agent Runtime & SDK | [@patniko](https://github.com/patniko) | [in/patricknikoletich](https://www.linkedin.com/in/patricknikoletich) |\n| **Wes Bos** | Full-Stack Developer, Educator & Syntax Podcast Host | [@wesbos](https://github.com/wesbos) | [in/wesbos](https://www.linkedin.com/in/wesbos) |\n\n\n---\n\n## \ud83d\udd17 Essential Resources & Technical Links\n\n### \ud83d\udee0\ufe0f Products, Downloads & Documentation\n* **GitHub Copilot App:** [https://gh.io/app](https://gh.io/app) \u2014 Native desktop application for orchestrating asynchronous multi-agent workflows across repositories.\n* **GitHub Copilot CLI:** [GitHub CLI Docs](https://docs.github.com/en/copilot/github-copilot-in-the-cli) \u2014 Terminal-native agent workflows powered by HydraFusion.\n* **Copilot Dev Days Workshop:** [https://copilot-dev-days.github.io/](https://copilot-dev-days.github.io/) \u2014 Interactive labs and hands-on developer guides.\n* **Official GitHub Copilot Features:** [https://gh.io/ghcopilot-features](https://gh.io/ghcopilot-features) \u2014 Full feature matrix and updates.\n* **Official YouTube Broadcast:** [YouTube: GitHub Copilot Day Live (ID: 0kOXsQUNzss)](https://www.youtube.com/watch?v=0kOXsQUNzss).\n* **GitHub Universe Conference:** [https://githubuniverse.com/](https://githubuniverse.com/) \u2014 Flagship annual GitHub developer conference.\n\n### \ud83d\udcda Open Source Repositories & Protocols\n* **Agent Host Protocol (AHP):** [`microsoft/agent-host-protocol`](https://github.com/microsoft/agent-host-protocol) \u2014 Standard open protocol for decoupling agent runtimes from frontend clients.\n* **GitHub Copilot SDK:** [`github/copilot-sdk`](https://github.com/github/copilot-sdk) \u2014 SDK for programmatically invoking, extending, and embedding the Copilot Agent Runtime.\n* **Matt Pocock's Agent Skills:** [`mattpocock/skills`](https://github.com/mattpocock/skills) \u2014 Repository of reusable agent skills (including the `Show Me` visual architecture generator).\n* **Model Context Protocol (MCP):** [https://modelcontextprotocol.io/](https://modelcontextprotocol.io/) \u2014 Open specification for connecting agents to external tools, local files, and browser canvases.\n* **Visual Studio Code:** [`microsoft/vscode`](https://github.com/microsoft/vscode) \u2014 The open-source code editor supporting agent mode, MCP, and BYOK.\n\n### \ud83d\udd2c Research & Papers\n* **Project HydraFusion / HyDRA Research:** [Microsoft Research: HyDRA - Hybrid Dynamic Routing Architecture](https://arxiv.org/abs/2406.18665) \u2014 Technical publication by Aashna Garg et al. on cost-effective, high-accuracy multi-model orchestration.\n* **GitHub Technology Blog:** [https://github.blog/](https://github.blog/) \u2014 Announcements and engineering deep-dives into agent-native development.\n\n### \ud83c\udf99\ufe0f Community, Media & Podcasts\n* **Syntax FM (Wes Bos & Scott Tolinski):** [https://syntax.fm/](https://syntax.fm/) \u2014 Leading web development podcast covering AI tools and front-end architectures.\n* **Merge Conflict Podcast (James Montemagno & Frank Krueger):** [https://www.mergeconflict.fm/](https://www.mergeconflict.fm/) \u2014 Weekly developer podcast discussing AI, mobile, and cloud software engineering.\n* **Burke Holland on YouTube:** [Burke Holland Developer Channel](https://www.youtube.com/@BurkeHolland) \u2014 Tutorials on VS Code tips, Copilot hacks, and agentic workflows.\n\n\n## Actionable Developer Takeaways & Best Practices\n\n1. **Adopt the \"Chief of Staff\" Mindset:**\n   - Stop typing line-by-line. Instead, outline specifications, define acceptance criteria, and launch agents to build feature spikes in draft branches.\n2. **Standardize Workflows with Agent Skills:**\n   - Convert repeated prompts and internal style guides into reusable Skills inside `.github/skills/`. Equip agents with domain-specific tools like visualizers and linters.\n3. **Use Headless Browsers for Visual Feedback:**\n   - When developing UI, enable an MCP browser tool. Agents that can \"see\" their own DOM layout produce drastically fewer rendering bugs than text-only agents.\n4. **Leverage HydraFusion to Optimize Costs:**\n   - Enable HydraFusion in the Copilot CLI and Copilot App to automatically balance performance and cost without having to manually swap models.\n5. **Decouple Execution from Your Local Machine:**\n   - Use the Copilot SDK and remote runtimes so long-running agent tasks continue executing in the background even if you close your laptop.\n\n---\n*Notes compiled from complete automated transcript analysis, frame sampling, and metadata inspection of `videoplayback.mp4`.*\n";
+
+    let activeTab = 'notes';
+
+    // Seek YouTube Player
+    function seekTo(seconds, title) {
+      const iframe = document.getElementById('yt-player');
+      iframe.src = `https://www.youtube.com/embed/0kOXsQUNzss?autoplay=1&start=${seconds}&enablejsapi=1`;
+      
+      const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
+      const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+      const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+      document.getElementById('current-timestamp').innerText = `${h}:${m}:${s} • ${title}`;
+      
+      // highlight active chapter button
+      document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('border-ghblue', 'bg-ghborder/50'));
+      const activeEl = document.getElementById(`chapter-${seconds}`);
+      if (activeEl) activeEl.classList.add('border-ghblue', 'bg-ghborder/50');
+    }
+
+    // Render Chapters
+    function renderChapters() {
+      const container = document.getElementById('chapters-list');
+      container.innerHTML = chaptersData.map(c => `
+        <div id="chapter-${c.sec}" onclick="seekTo(${c.sec}, '${c.title.replace(/'/g, "\\'")}')" 
+          class="chapter-item cursor-pointer p-2 rounded-lg bg-ghsurface hover:bg-ghborder border border-ghborder transition flex items-start justify-between gap-2 group">
+          <div>
+            <div class="text-xs font-medium text-white group-hover:text-ghblue transition">${c.title}</div>
+            <div class="text-[11px] text-gray-400 truncate max-w-[260px]">${c.speaker}</div>
+          </div>
+          <span class="text-[10px] font-mono text-ghgreen bg-ghgreen/10 border border-ghgreen/30 px-1.5 py-0.5 rounded whitespace-nowrap">${c.time}</span>
+        </div>
+      `).join('');
+    }
+
+    // Render Keyframes
+    function renderKeyframes() {
+      const grid = document.getElementById('keyframe-grid');
+      grid.innerHTML = framesData.map(f => `
+        <div onclick="openModal('${f.file}', '${f.label}', ${f.sec})" class="cursor-pointer group relative rounded-lg overflow-hidden border border-ghborder bg-black aspect-video">
+          <img src="${f.file}" alt="${f.label}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition p-1.5 flex flex-col justify-end">
+            <span class="text-[9px] text-white font-medium line-clamp-1">${f.label}</span>
+            <span class="text-[8px] font-mono text-ghblue">${Math.floor(f.sec/60)}m ${f.sec%60}s</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Speakers
+    function renderSpeakers() {
+      const grid = document.getElementById('speakers-grid');
+      grid.innerHTML = speakersData.map(s => `
+        <div class="bg-ghsurface border border-ghborder rounded-xl p-4 space-y-3 hover:border-gray-500 transition">
+          <div class="flex items-center space-x-3">
+            <img src="https://github.com/${s.github}.png" alt="${s.name}" class="w-12 h-12 rounded-full border border-ghborder object-cover" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
+            <div>
+              <h3 class="font-bold text-white text-sm">${s.name}</h3>
+              <p class="text-[11px] text-gray-400 line-clamp-1">${s.role}</p>
+            </div>
+          </div>
+          <p class="text-xs text-gray-300 leading-relaxed">${s.bio}</p>
+          <div class="flex items-center space-x-2 pt-1 border-t border-ghborder">
+            <a href="https://github.com/${s.github}" target="_blank" class="text-xs bg-ghborder hover:bg-gray-700 text-white px-2.5 py-1 rounded flex items-center gap-1.5 transition">
+              <i class="fa-brands fa-github"></i> @${s.github}
+            </a>
+            <a href="https://www.linkedin.com/in/${s.linkedin}" target="_blank" class="text-xs bg-[#0a66c2]/20 hover:bg-[#0a66c2]/30 text-[#58a6ff] border border-[#0a66c2]/40 px-2.5 py-1 rounded flex items-center gap-1.5 transition">
+              <i class="fa-brands fa-linkedin"></i> LinkedIn
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Resources
+    function renderResources() {
+      const list = document.getElementById('resources-list');
+      list.innerHTML = resourcesData.map(r => `
+        <div class="bg-ghsurface border border-ghborder rounded-xl p-3.5 flex items-start justify-between hover:border-ghblue transition group">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-ghborder text-gray-300">${r.category}</span>
+              <a href="${r.url}" target="_blank" class="font-semibold text-white group-hover:text-ghblue transition text-sm flex items-center gap-1.5">
+                ${r.title} <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400"></i>
+              </a>
+            </div>
+            <p class="text-xs text-gray-400">${r.desc}</p>
+          </div>
+          <a href="${r.url}" target="_blank" class="text-xs text-ghblue hover:underline whitespace-nowrap ml-4 self-center font-medium">Open <i class="fa-solid fa-chevron-right text-[10px]"></i></a>
+        </div>
+      `).join('');
+    }
+
+    // Tab Switching
+    function switchTab(tab) {
+      activeTab = tab;
+      ['notes', 'speakers', 'resources'].forEach(t => {
+        const btn = document.getElementById(`tab-btn-${t}`);
+        const content = document.getElementById(`tab-${t}`);
+        if (t === tab) {
+          btn.className = "flex-1 py-2 px-3 text-xs sm:text-sm font-medium rounded-lg text-white bg-ghborder transition flex items-center justify-center gap-2";
+          content.classList.remove('hidden');
+        } else {
+          btn.className = "flex-1 py-2 px-3 text-xs sm:text-sm font-medium rounded-lg text-gray-400 hover:text-white transition flex items-center justify-center gap-2";
+          content.classList.add('hidden');
+        }
+      });
+    }
+
+    // Keyframe Modal
+    function openModal(imgSrc, title, seconds) {
+      document.getElementById('modal-img').src = imgSrc;
+      document.getElementById('modal-title').innerText = title;
+      const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
+      const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+      const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+      document.getElementById('modal-time').innerText = `Timestamp: ${h}:${m}:${s} (${seconds}s)`;
+      document.getElementById('modal-jump-btn').onclick = () => {
+        closeModal();
+        seekTo(seconds, title);
+      };
+      document.getElementById('image-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('image-modal').classList.add('hidden');
+    }
+
+    // Filter Notes
+    function filterNotes() {
+      const query = document.getElementById('notes-filter').value.toLowerCase().trim();
+      const body = document.getElementById('notes-body');
+      if (!query) {
+        body.innerHTML = marked.parse(fullNotesMarkdown);
+        return;
+      }
+      // Simple filter: split paragraphs, show matching
+      const paragraphs = fullNotesMarkdown.split('\n\n');
+      const filtered = paragraphs.filter(p => p.toLowerCase().includes(query));
+      if (filtered.length === 0) {
+        body.innerHTML = `<div class="p-8 text-center text-gray-500">No matching sections found for "<strong>${query}</strong>".</div>`;
+      } else {
+        body.innerHTML = marked.parse(filtered.join('\n\n'));
+      }
+    }
+
+    // Initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      renderChapters();
+      renderKeyframes();
+      renderSpeakers();
+      renderResources();
+      document.getElementById('notes-body').innerHTML = marked.parse(fullNotesMarkdown);
+    });
+  </script>
+</body>
+</html>
