@@ -5,12 +5,22 @@ Comprehensive deep-dive analysis, complete timestamps, architectural breakdown, 
 [![Event](https://img.shields.io/badge/Event-GitHub%20Copilot%20Day-green)](https://www.youtube.com/watch?v=0kOXsQUNzss)
 [![Duration](https://img.shields.io/badge/Duration-4h%2011m%2040s-blue)]()
 [![Model Orchestration](https://img.shields.io/badge/Preview-Project%20HydraFusion-purple)]()
+[![GitHub Pages](https://img.shields.io/badge/Live%20Dashboard-GitHub%20Pages-blue?style=flat&logo=github)](https://nandhakumar-murugan.github.io/github-copilot-day-2026-analysis/)
+
 
 ---
 
 ## 📌 Repository Overview
 
 This repository contains an end-to-end technical analysis of the **GitHub Copilot Day** live stream (`videoplayback.mp4`), a 4-hour 11-minute event outlining GitHub's vision and tooling for **agent-native software engineering**.
+
+### 🌐 Live Interactive Web App
+👉 **[Open Interactive Video Dashboard & Notes](https://nandhakumar-murugan.github.io/github-copilot-day-2026-analysis/)**
+* **Synced YouTube Video Player**: Click any agenda chapter to jump the video directly to that moment.
+* **Keyframe Visual Explorer**: Browse captured slides, lower-third banners, and 3D demos.
+* **Instant Keyword Filter**: Search topics, models, HydraFusion, Agent Skills, and speakers in real time.
+* **Interactive Speaker Directory**: Click directly into speaker GitHub and LinkedIn accounts.
+
 
 ### 📄 Key Documents
 * **[GitHub_Copilot_Day_Full_Notes.md](./GitHub_Copilot_Day_Full_Notes.md)**: Exhaustive, chapter-by-chapter notes covering every presentation, live coding session, product announcement, and architecture diagram.
