@@ -1,0 +1,10 @@
+﻿__pycache__/
+*.py[cod]
+*$py.class
+*.mp4
+*.mkv
+*.avi
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
